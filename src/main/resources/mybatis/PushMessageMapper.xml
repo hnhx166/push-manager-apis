@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vinux.dao.mapper.PushMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.vinux.dao.entity.PushMessage" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="SEND_ID" property="sendId" jdbcType="VARCHAR" />
+    <result column="RECEIVER_ID" property="receiverId" jdbcType="VARCHAR" />
+    <result column="VERSION" property="version" jdbcType="INTEGER" />
+    <result column="APP_ID" property="appId" jdbcType="VARCHAR" />
+    <result column="MESSAGE" property="message" jdbcType="VARCHAR" />
+    <result column="MESSAGE_TYPE" property="messageType" jdbcType="INTEGER" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="RECEIVE_TIME" property="receiveTime" jdbcType="TIMESTAMP" />
+    <result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="SERVER_SEND_TIME" property="serverSendTime" jdbcType="TIMESTAMP" />
+    <result column="RECEIVE_TYPE" property="receiveType" jdbcType="INTEGER" />
+    <result column="GROUP_ID" property="groupId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, SEND_ID, RECEIVER_ID, VERSION, APP_ID, MESSAGE, MESSAGE_TYPE, STATUS, RECEIVE_TIME, 
+    SEND_TIME, RECEIVE_TYPE, GROUP_ID, SERVER_SEND_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from PUSH_MESSAGE
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from PUSH_MESSAGE
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.vinux.dao.entity.PushMessage" >
+    insert into PUSH_MESSAGE (ID, SEND_ID, RECEIVER_ID, 
+      VERSION, APP_ID, MESSAGE, 
+      MESSAGE_TYPE, STATUS, RECEIVE_TIME, 
+      SEND_TIME, RECEIVE_TYPE, GROUP_ID, SERVER_SEND_TIME
+      )
+    values (#{id,jdbcType=BIGINT}, #{sendId,jdbcType=VARCHAR}, #{receiverId,jdbcType=VARCHAR}, 
+      #{version,jdbcType=INTEGER}, #{appId,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, 
+      #{messageType,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{receiveTime,jdbcType=TIMESTAMP}, 
+      #{sendTime,jdbcType=TIMESTAMP}, #{receiveType,jdbcType=INTEGER}, #{groupId,jdbcType=VARCHAR},
+      #{serverSendTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.vinux.dao.entity.PushMessage" >
+    insert into PUSH_MESSAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="sendId != null" >
+        SEND_ID,
+      </if>
+      <if test="receiverId != null" >
+        RECEIVER_ID,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="appId != null" >
+        APP_ID,
+      </if>
+      <if test="message != null" >
+        MESSAGE,
+      </if>
+      <if test="messageType != null" >
+        MESSAGE_TYPE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="receiveTime != null" >
+        RECEIVE_TIME,
+      </if>
+      <if test="sendTime != null" >
+        SEND_TIME,
+      </if>
+      <if test="receiveType != null" >
+        RECEIVE_TYPE,
+      </if>
+      <if test="groupId != null" >
+        GROUP_ID,
+      </if>
+      <if test="serverSendTime != null" >
+        SERVER_SEND_TIME,
+      </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sendId != null" >
+        #{sendId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null" >
+        #{receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="messageType != null" >
+        #{messageType,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="receiveTime != null" >
+        #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveType != null" >
+        #{receiveType,jdbcType=INTEGER},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="serverSendTime != null" >
+        #{serverSendTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vinux.dao.entity.PushMessage" >
+    update PUSH_MESSAGE
+    <set >
+      <if test="sendId != null" >
+        SEND_ID = #{sendId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null" >
+        RECEIVER_ID = #{receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="appId != null" >
+        APP_ID = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null" >
+        MESSAGE = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="messageType != null" >
+        MESSAGE_TYPE = #{messageType,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="receiveTime != null" >
+        RECEIVE_TIME = #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendTime != null" >
+        SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveType != null" >
+        RECEIVE_TYPE = #{receiveType,jdbcType=INTEGER},
+      </if>
+      <if test="groupId != null" >
+        GROUP_ID = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="serverSendTime != null" >
+        SERVER_SEND_TIME = #{serverSendTime,jdbcType=TIMESTAMP},
+      </if>
+      
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vinux.dao.entity.PushMessage" >
+    update PUSH_MESSAGE
+    set SEND_ID = #{sendId,jdbcType=VARCHAR},
+      RECEIVER_ID = #{receiverId,jdbcType=VARCHAR},
+      VERSION = #{version,jdbcType=INTEGER},
+      APP_ID = #{appId,jdbcType=VARCHAR},
+      MESSAGE = #{message,jdbcType=VARCHAR},
+      MESSAGE_TYPE = #{messageType,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=INTEGER},
+      RECEIVE_TIME = #{receiveTime,jdbcType=TIMESTAMP},
+      SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      RECEIVE_TYPE = #{receiveType,jdbcType=INTEGER},
+      GROUP_ID = #{groupId,jdbcType=VARCHAR},
+      SERVER_SEND_TIME = #{serverSendTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectMessages" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from PUSH_MESSAGE
+    where 1 = 1
+    <if test="sendId != null" >
+        AND SEND_ID = #{sendId,jdbcType=VARCHAR}
+    </if>
+    <if test="receiverId != null" >
+        AND RECEIVER_ID = #{receiverId,jdbcType=VARCHAR}
+    </if>
+    <if test="version != null" >
+        AND VERSION = #{version,jdbcType=INTEGER}
+    </if>
+    <if test="appId != null" >
+        AND APP_ID = #{appId,jdbcType=VARCHAR}
+    </if>
+    <if test="message != null" >
+        AND MESSAGE like CONCAT(CONCAT('%', #{message}), '%')
+    </if>
+    <if test="messageType != null" >
+        AND MESSAGE_TYPE = #{messageType,jdbcType=INTEGER}
+    </if>
+    <if test="status != null" >
+        AND STATUS = #{status,jdbcType=INTEGER}
+    </if>
+    
+    <!-- BETWEEN...AND 方式 <if test="startTime != null and endTime != null">
+        AND RECEIVE_TIME BETWEEN #{startTime} AND #{endTime}
+    </if> -->
+    
+    <!-- 大于、小于  方式 -->
+    <if test="startTime != null ">
+        AND RECEIVE_TIME <![CDATA[>=]]> #{startTime}
+    </if>
+    <if test="endTime != null ">
+        AND RECEIVE_TIME <![CDATA[<=]]> #{startTime}
+    </if>
+    
+  </select>
+</mapper>
