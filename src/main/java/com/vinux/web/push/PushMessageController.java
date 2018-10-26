@@ -3,13 +3,14 @@ package com.vinux.web.push;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.vinux.common.page.Pagination;
-import com.vinux.common.utils.StringUtils;
 import com.vinux.dao.entity.PushMessage;
 import com.vinux.service.PushMessageService;
 
@@ -64,46 +65,57 @@ public class PushMessageController {
 	}
 	
 	@RequestMapping("getMessages")
-	public Map<String, Object> getMessages(String sendId,
+	public Map<String, Object> getMessages(@RequestBody Map<String, Object> conditionItems/*,String sendId,
 			String receiverId,
 			String appId,//select默认选择，为空时
 			String message,
 			String status,
 			String startTime,
-			String endTime,Integer pageNum, Integer pageSize){
+			String endTime,Integer pageNum, Integer pageSize*/){
 		Map<String, Object> resultData = new HashMap<String, Object>();
 		try {
-			if(pageNum == null) {
-				pageNum = 1;
-			}
-			if(pageSize == null) {
-				pageSize = 10; 
-			}
+//			if(pageNum == null) {
+//				pageNum = 1;
+//			}
+//			if(pageSize == null) {
+//				pageSize = 10; 
+//			}
+//			
+//			Map<String, Object> conditionItems = new HashMap<String, Object>();
+//			if(StringUtils.isNotBlank(sendId)) {
+//				conditionItems.put("sendId", sendId);
+//			}
+//			
+//			if(StringUtils.isNotBlank(receiverId)) {
+//				conditionItems.put("receiverId", receiverId);
+//			}
+//			if(StringUtils.isNotBlank(appId)) {
+//				conditionItems.put("appId", appId);
+//			}
+//			
+//			if(StringUtils.isNotBlank(message)) {
+//				conditionItems.put("message", message);
+//			}
+//			
+//			if(StringUtils.isNotBlank(status))
+//				conditionItems.put("status", status);
+//			
+//			if(StringUtils.isNotBlank(startTime))
+//				conditionItems.put("startTime", startTime);
+//			
+//			if(StringUtils.isNotBlank(endTime))
+//				conditionItems.put("endTime", endTime);
 			
-			Map<String, Object> conditionItems = new HashMap<String, Object>();
-			if(StringUtils.isNotBlank(sendId)) {
-				conditionItems.put("sendId", sendId);
+			Integer pageNum = 1;
+			Integer pageSize = 10;
+			if(MapUtils.isNotEmpty(conditionItems)){
+				try {
+					pageNum = Integer.parseInt(conditionItems.get("pageNum").toString());
+					pageSize = Integer.parseInt(conditionItems.get("pageSize").toString());
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
 			}
-			
-			if(StringUtils.isNotBlank(receiverId)) {
-				conditionItems.put("receiverId", receiverId);
-			}
-			if(StringUtils.isNotBlank(appId)) {
-				conditionItems.put("appId", appId);
-			}
-			
-			if(StringUtils.isNotBlank(message)) {
-				conditionItems.put("message", message);
-			}
-			
-			if(StringUtils.isNotBlank(status))
-				conditionItems.put("status", status);
-			
-			if(StringUtils.isNotBlank(startTime))
-				conditionItems.put("startTime", startTime);
-			
-			if(StringUtils.isNotBlank(endTime))
-				conditionItems.put("endTime", endTime);
 			
 			Pagination<PushMessage> result = pushMessageService.selectMessages(conditionItems, pageNum, pageSize);
 			resultData.put("status", 200);
@@ -114,5 +126,11 @@ public class PushMessageController {
 			resultData.put("msg", "获取消息出错了。");
 		}
 		return resultData;
+	}
+	
+	
+	@RequestMapping("getEquipments")
+	public Map<String, Object> getEquipments(@RequestBody Map<String, Object> conditionItems){
+		return null;
 	}
 }
