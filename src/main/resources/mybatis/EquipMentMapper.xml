@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vinux.dao.mapper.EquipMentMapper" >
+  <resultMap id="BaseResultMap" type="com.vinux.dao.entity.EquipMent" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="OWNER_ID" property="ownerId" jdbcType="VARCHAR" />
+    <result column="OWNER_NAME" property="ownerName" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="GRANT_TIME" property="grantTime" jdbcType="DATE" />
+    <result column="USE_TIME" property="useTime" jdbcType="DATE" />
+    <result column="CERTIFICATE" property="certificate" jdbcType="VARCHAR" />
+    <result column="MDATE" property="mdate" jdbcType="TIMESTAMP" />
+    <result column="CDATE" property="cdate" jdbcType="TIMESTAMP" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="TEL_PHONE" property="telPhone" jdbcType="VARCHAR" />
+    <result column="FIXED" property="fixed" jdbcType="VARCHAR" />
+    <result column="ZIP_CODE" property="zipCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CODE, OWNER_ID, OWNER_NAME, STATUS, GRANT_TIME, USE_TIME, CERTIFICATE, MDATE, 
+    CDATE, ADDRESS, EMAIL, PHONE, TEL_PHONE, FIXED, ZIP_CODE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from EQUIPMENT
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from EQUIPMENT
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.vinux.dao.entity.EquipMent" >
+    insert into EQUIPMENT (ID, CODE, OWNER_ID, 
+      OWNER_NAME, STATUS, GRANT_TIME, 
+      USE_TIME, CERTIFICATE, MDATE, 
+      CDATE, ADDRESS, EMAIL, 
+      PHONE, TEL_PHONE, FIXED, 
+      ZIP_CODE)
+    values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{ownerId,jdbcType=VARCHAR}, 
+      #{ownerName,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{grantTime,jdbcType=DATE}, 
+      #{useTime,jdbcType=DATE}, #{certificate,jdbcType=VARCHAR}, #{mdate,jdbcType=TIMESTAMP}, 
+      #{cdate,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{telPhone,jdbcType=VARCHAR}, #{fixed,jdbcType=VARCHAR}, 
+      #{zipCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vinux.dao.entity.EquipMent" >
+    insert into EQUIPMENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="ownerId != null" >
+        OWNER_ID,
+      </if>
+      <if test="ownerName != null" >
+        OWNER_NAME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="grantTime != null" >
+        GRANT_TIME,
+      </if>
+      <if test="useTime != null" >
+        USE_TIME,
+      </if>
+      <if test="certificate != null" >
+        CERTIFICATE,
+      </if>
+      <if test="mdate != null" >
+        MDATE,
+      </if>
+      <if test="cdate != null" >
+        CDATE,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="telPhone != null" >
+        TEL_PHONE,
+      </if>
+      <if test="fixed != null" >
+        FIXED,
+      </if>
+      <if test="zipCode != null" >
+        ZIP_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null" >
+        #{ownerId,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerName != null" >
+        #{ownerName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="grantTime != null" >
+        #{grantTime,jdbcType=DATE},
+      </if>
+      <if test="useTime != null" >
+        #{useTime,jdbcType=DATE},
+      </if>
+      <if test="certificate != null" >
+        #{certificate,jdbcType=VARCHAR},
+      </if>
+      <if test="mdate != null" >
+        #{mdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cdate != null" >
+        #{cdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="telPhone != null" >
+        #{telPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="fixed != null" >
+        #{fixed,jdbcType=VARCHAR},
+      </if>
+      <if test="zipCode != null" >
+        #{zipCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vinux.dao.entity.EquipMent" >
+    update EQUIPMENT
+    <set >
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null" >
+        OWNER_ID = #{ownerId,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerName != null" >
+        OWNER_NAME = #{ownerName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="grantTime != null" >
+        GRANT_TIME = #{grantTime,jdbcType=DATE},
+      </if>
+      <if test="useTime != null" >
+        USE_TIME = #{useTime,jdbcType=DATE},
+      </if>
+      <if test="certificate != null" >
+        CERTIFICATE = #{certificate,jdbcType=VARCHAR},
+      </if>
+      <if test="mdate != null" >
+        MDATE = #{mdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cdate != null" >
+        CDATE = #{cdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="telPhone != null" >
+        TEL_PHONE = #{telPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="fixed != null" >
+        FIXED = #{fixed,jdbcType=VARCHAR},
+      </if>
+      <if test="zipCode != null" >
+        ZIP_CODE = #{zipCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vinux.dao.entity.EquipMent" >
+    update EQUIPMENT
+    set CODE = #{code,jdbcType=VARCHAR},
+      OWNER_ID = #{ownerId,jdbcType=VARCHAR},
+      OWNER_NAME = #{ownerName,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=INTEGER},
+      GRANT_TIME = #{grantTime,jdbcType=DATE},
+      USE_TIME = #{useTime,jdbcType=DATE},
+      CERTIFICATE = #{certificate,jdbcType=VARCHAR},
+      MDATE = #{mdate,jdbcType=TIMESTAMP},
+      CDATE = #{cdate,jdbcType=TIMESTAMP},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      TEL_PHONE = #{telPhone,jdbcType=VARCHAR},
+      FIXED = #{fixed,jdbcType=VARCHAR},
+      ZIP_CODE = #{zipCode,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getEquipments" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from EQUIPMENT where 1=1
+  	<if test="code != null and code != ''">
+  		AND CODE = #{code,jdbcType=VARCHAR}
+  	</if>
+  	<if test="owner != null and owner != ''">
+  		AND OWNER LIKE CONCAT(CONCAT('%', #{owner}), '%')
+  	</if>
+  	<if test="status != null and status != ''">
+  		AND STATUS = #{status, jdbcType=INTEGER}
+  	</if>
+  	<if test="grantTime != null and grantTime != ''">
+  		AND GRANT_TIME = #{grantTime, jdbcType=DATE}
+  	</if>
+  	<if test="useTime != null and useTime != ''">
+  		AND USE_TIME = #{useTime, jdbcType=DATE}
+  	</if>
+  	<if test="phone != null and phone != ''">
+  		AND PHONE = #{phone, jdbcType=VARCHAR}
+  	</if>
+  	<if test="email != null and email != ''">
+  		AND EMAIL = #{email, jdbcType=VARCHAR} 
+  	</if>
+  	
+  	order by id desc
+  </select>
+</mapper>

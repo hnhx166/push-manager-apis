@@ -3,8 +3,8 @@ package com.vinux.web.push;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +14,8 @@ import com.vinux.common.page.Pagination;
 import com.vinux.dao.entity.PushMessage;
 import com.vinux.service.PushMessageService;
 
+//设置允许跨域
+@CrossOrigin
 @RequestMapping("push")
 @RestController
 public class PushMessageController {
@@ -105,19 +107,7 @@ public class PushMessageController {
 //			
 //			if(StringUtils.isNotBlank(endTime))
 //				conditionItems.put("endTime", endTime);
-			
-			Integer pageNum = 1;
-			Integer pageSize = 10;
-			if(MapUtils.isNotEmpty(conditionItems)){
-				try {
-					pageNum = Integer.parseInt(conditionItems.get("pageNum").toString());
-					pageSize = Integer.parseInt(conditionItems.get("pageSize").toString());
-				}catch(Exception e) {
-					e.printStackTrace();
-				}
-			}
-			
-			Pagination<PushMessage> result = pushMessageService.selectMessages(conditionItems, pageNum, pageSize);
+			Pagination<PushMessage> result = pushMessageService.selectMessages(conditionItems);
 			resultData.put("status", 200);
 			resultData.put("data", result);
 			resultData.put("msg", "获取消息成功。");
@@ -128,9 +118,4 @@ public class PushMessageController {
 		return resultData;
 	}
 	
-	
-	@RequestMapping("getEquipments")
-	public Map<String, Object> getEquipments(@RequestBody Map<String, Object> conditionItems){
-		return null;
-	}
 }

@@ -9,7 +9,7 @@ public interface PushMessageService {
 
 	int insert(PushMessage record);
 	
-	Pagination<PushMessage> selectMessages(Map<String, Object> conditionItems, Integer pageNum, Integer pageSize);
+	Pagination<PushMessage> selectMessages(Map<String, Object> conditionItems);
 
     PushMessage selectByPrimaryKey(Long id);
 }

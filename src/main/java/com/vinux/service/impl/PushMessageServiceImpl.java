@@ -2,6 +2,7 @@ package com.vinux.service.impl;
 
 import java.util.Map;
 
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,18 @@ public class PushMessageServiceImpl implements PushMessageService {
 	}
 
 	@Override
-	public Pagination<PushMessage> selectMessages(Map<String, Object> conditionItems, Integer pageNum, Integer pageSize) {
+	public Pagination<PushMessage> selectMessages(Map<String, Object> conditionItems) {
+		
+		Integer pageNum = 1;
+		Integer pageSize = 10;
+		if(MapUtils.isNotEmpty(conditionItems)){
+			try {
+				pageNum = Integer.parseInt(conditionItems.get("pageNum").toString());
+				pageSize = Integer.parseInt(conditionItems.get("pageSize").toString());
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 		//使用分页插件,核心代码就这一行
 		Page<PushMessage> messageList = PageHelper.startPage(pageNum, pageSize);
 		pushMessageMapper.selectMessages(conditionItems);
