@@ -1,15 +1,27 @@
 package com.vinux.web.push;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.vinux.common.mq.MQ_CHANNEL;
+import com.vinux.common.mq.Producer;
 import com.vinux.common.page.Pagination;
 import com.vinux.dao.entity.PushMessage;
 import com.vinux.service.PushMessageService;
@@ -19,6 +31,8 @@ import com.vinux.service.PushMessageService;
 @RequestMapping("push")
 @RestController
 public class PushMessageController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(PushMessageController.class);
 	
 	@Autowired
 	private PushMessageService pushMessageService;
@@ -67,46 +81,9 @@ public class PushMessageController {
 	}
 	
 	@RequestMapping("getMessages")
-	public Map<String, Object> getMessages(@RequestBody Map<String, Object> conditionItems/*,String sendId,
-			String receiverId,
-			String appId,//select默认选择，为空时
-			String message,
-			String status,
-			String startTime,
-			String endTime,Integer pageNum, Integer pageSize*/){
+	public Map<String, Object> getMessages(@RequestBody Map<String, Object> conditionItems){
 		Map<String, Object> resultData = new HashMap<String, Object>();
 		try {
-//			if(pageNum == null) {
-//				pageNum = 1;
-//			}
-//			if(pageSize == null) {
-//				pageSize = 10; 
-//			}
-//			
-//			Map<String, Object> conditionItems = new HashMap<String, Object>();
-//			if(StringUtils.isNotBlank(sendId)) {
-//				conditionItems.put("sendId", sendId);
-//			}
-//			
-//			if(StringUtils.isNotBlank(receiverId)) {
-//				conditionItems.put("receiverId", receiverId);
-//			}
-//			if(StringUtils.isNotBlank(appId)) {
-//				conditionItems.put("appId", appId);
-//			}
-//			
-//			if(StringUtils.isNotBlank(message)) {
-//				conditionItems.put("message", message);
-//			}
-//			
-//			if(StringUtils.isNotBlank(status))
-//				conditionItems.put("status", status);
-//			
-//			if(StringUtils.isNotBlank(startTime))
-//				conditionItems.put("startTime", startTime);
-//			
-//			if(StringUtils.isNotBlank(endTime))
-//				conditionItems.put("endTime", endTime);
 			Pagination<PushMessage> result = pushMessageService.selectMessages(conditionItems);
 			resultData.put("status", 200);
 			resultData.put("data", result);
@@ -116,6 +93,42 @@ public class PushMessageController {
 			resultData.put("msg", "获取消息出错了。");
 		}
 		return resultData;
+	}
+	
+	@RequestMapping(value = "pushToServer", method = RequestMethod.POST)
+	public void pushToServer(HttpServletRequest request){
+//		String receiveId = message.getString("receiveId");
+//		String appId = message.getString("appId");
+//		String msg = message.getString("message");
+//		String memberId = message.getString("memberId");
+//		Date sendTime = message.getDate("sendTime");
+		
+		String appId = request.getHeader("appId");
+		logger.debug("接收到appId:" + appId);
+		
+		StringBuilder sb = new StringBuilder();
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream) request.getInputStream()));
+			String line = null;
+
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+			logger.info("接收到应用 " + appId + " 推送的数据：" + sb.toString());
+		} catch (IOException e) {
+			logger.error("接收到应用 " + appId + " 推送的数据出错。");
+			e.printStackTrace();
+			return ;
+		}
+		try {
+			JSONObject message = JSONObject.parseObject(sb.toString());
+			//TODO 此处会阻塞，需要优化
+			Producer.pushMessage(message, MQ_CHANNEL.CHANNEL_PUSH_TO_SERVER);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (TimeoutException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
